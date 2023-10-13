@@ -3,7 +3,7 @@ package main
 /**
 * XXX: Ugly workaround for https://github.com/amitbet/vnc2video/issues/10. I've copied the file and build a
 * X264ImageCustomEncoder. Once this is merged, we can drop the encoder.go file again.
-*/
+ */
 
 import (
 	"errors"
@@ -129,6 +129,8 @@ func (enc *X264ImageCustomEncoder) Init(videoFileName string) {
 		"-vcodec", "libx264",
 		"-preset", "veryfast",
 		"-g", "250",
+		"-vf",
+		`drawtext=text='%{localtime\:%H.%M.%S %m/%d/%Y}': fontcolor=white@0.8: x=(w-text_w-10): y=(h-text_h-10)`,
 		"-crf", strconv.Itoa(enc.ConstantRateFactor),
 		"-pix_fmt", "yuv420p",
 		videoFileName,
